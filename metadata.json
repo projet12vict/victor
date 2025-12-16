@@ -1,0 +1,5 @@
+{
+  "name": "V-&.C Enterprise POS",
+  "description": "A robust, multi-tenant Point of Sale system designed for scalability. Supports Restaurant (Table Service) and Supermarket (Retail) workflows with a unified Super Admin architecture.",
+  "requestFramePermissions": []
+}
