@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padaria - Sistema MultiEmpresas</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-bread-slice"></i> Padaria</h2>
+            </div>
+
+            <div class="company-info" id="companyInfo">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <h4>MENU PRINCIPAL</h4>
+                    <a href="#" class="menu-item active" onclick="showSection('dashboard')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('production')">
+                        <i class="fas fa-industry"></i>
+                        <span>Produção</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('rawMaterial')">
+                        <i class="fas fa-wheat"></i>
+                        <span>Matéria-prima</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('recipes')">
+                        <i class="fas fa-book"></i>
+                        <span>Receitas/Fórmulas</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('packaging')">
+                        <i class="fas fa-box"></i>
+                        <span>Embalagem</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <h4>VENDAS & ESTOQUE</h4>
+                    <a href="#" class="menu-item" onclick="showSection('approval')">
+                        <i class="fas fa-check-double"></i>
+                        <span>Aprovação Produtos</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('stock')">
+                        <i class="fas fa-boxes"></i>
+                        <span>Estoque</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('sales')">
+                        <i class="fas fa-cash-register"></i>
+                        <span>Vendas/PDV</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <h4>GESTÃO</h4>
+                    <a href="#" class="menu-item" onclick="showSection('employees')">
+                        <i class="fas fa-users"></i>
+                        <span>Funcionários</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('reports')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <a href="#" class="menu-item" onclick="AuthManager.logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1 id="pageTitle">Dashboard Padaria</h1>
+                    <p id="pageSubtitle">Visão geral da operação</p>
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <!-- Preenchido via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <div id="dashboardSection" class="section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div>
+                                    <h3 id="todayProduction">0</h3>
+                                    <p>Produção Hoje</p>
+                                </div>
+                                <div class="stat-card-icon blue">
+                                    <i class="fas fa-industry"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div>
+                                    <h3 id="todaySales">0</h3>
+                                    <p>Vendas Hoje</p>
+                                </div>
+                                <div class="stat-card-icon green">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div>
+                                    <h3 id="stockProducts">0</h3>
+                                    <p>Produtos em Estoque</p>
+                                </div>
+                                <div class="stat-card-icon orange">
+                                    <i class="fas fa-boxes"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div>
+                                    <h3 id="pendingApproval">0</h3>
+                                    <p>Aguardando Aprovação</p>
+                                </div>
+                                <div class="stat-card-icon red">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-industry"></i> Produção em Andamento</h3>
+                        </div>
+                        <div class="card-body" id="productionProgress">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Production Section -->
+                <div id="productionSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-industry"></i> Gestão de Produção</h3>
+                            <button class="btn btn-primary" onclick="openProductionModal()">
+                                <i class="fas fa-plus"></i> Nova Produção
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Lote</th>
+                                            <th>Produto</th>
+                                            <th>Quantidade</th>
+                                            <th>Status</th>
+                                            <th>Etapa Atual</th>
+                                            <th>Responsável</th>
+                                            <th>Data/Hora</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productionTable">
+                                        <!-- Preenchido via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Raw Material Section -->
+                <div id="rawMaterialSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-wheat"></i> Gestão de Matéria-Prima</h3>
+                            <button class="btn btn-primary" onclick="openRawMaterialModal()">
+                                <i class="fas fa-plus"></i> Adicionar Matéria-Prima
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Categoria</th>
+                                            <th>Quantidade</th>
+                                            <th>Unidade</th>
+                                            <th>Mínimo</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rawMaterialTable">
+                                        <!-- Preenchido via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recipes Section -->
+                <div id="recipesSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-book"></i> Receitas e Fórmulas</h3>
+                            <button class="btn btn-primary" onclick="openRecipeModal()">
+                                <i class="fas fa-plus"></i> Nova Receita
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="recipesList">
+                                <!-- Preenchido via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Packaging Section -->
+                <div id="packagingSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-box"></i> Embalagem de Produtos</h3>
+                        </div>
+                        <div class="card-body" id="packagingList">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approval Section -->
+                <div id="approvalSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-check-double"></i> Aprovação de Produtos</h3>
+                        </div>
+                        <div class="card-body" id="approvalList">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stock Section -->
+                <div id="stockSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-boxes"></i> Estoque de Produtos</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Produto</th>
+                                            <th>Quantidade</th>
+                                            <th>Preço Unitário</th>
+                                            <th>Valor Total</th>
+                                            <th>Data Entrada</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="stockTable">
+                                        <!-- Preenchido via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Section -->
+                <div id="salesSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-cash-register"></i> Ponto de Venda (PDV)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4>Produtos Disponíveis</h4>
+                                    <div id="salesProducts" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                                        <!-- Preenchido via JS -->
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>Carrinho</h4>
+                                    <div id="salesCart" style="margin-top: 15px;">
+                                        <!-- Preenchido via JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employees Section -->
+                <div id="employeesSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-users"></i> Gestão de Funcionários</h3>
+                            <button class="btn btn-primary" onclick="openEmployeeModal()">
+                                <i class="fas fa-plus"></i> Novo Funcionário
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Função</th>
+                                            <th>Email</th>
+                                            <th>Telefone</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="employeesTable">
+                                        <!-- Preenchido via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Section -->
+                <div id="reportsSection" class="section hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-file-alt"></i> Relatórios</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                                <div class="card" style="cursor: pointer;" onclick="generateReport('production')">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-industry" style="font-size: 48px; color: var(--primary-color); margin-bottom: 15px;"></i>
+                                        <h3>Relatório de Produção</h3>
+                                        <p style="color: var(--text-secondary);">Visualizar produção por período</p>
+                                    </div>
+                                </div>
+                                <div class="card" style="cursor: pointer;" onclick="generateReport('sales')">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-dollar-sign" style="font-size: 48px; color: var(--success-color); margin-bottom: 15px;"></i>
+                                        <h3>Relatório de Vendas</h3>
+                                        <p style="color: var(--text-secondary);">Visualizar vendas e faturamento</p>
+                                    </div>
+                                </div>
+                                <div class="card" style="cursor: pointer;" onclick="generateReport('stock')">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-boxes" style="font-size: 48px; color: var(--warning-color); margin-bottom: 15px;"></i>
+                                        <h3>Relatório de Estoque</h3>
+                                        <p style="color: var(--text-secondary);">Visualizar movimentação de estoque</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Production Modal -->
+    <div id="productionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nova Produção</h3>
+                <button class="modal-close" onclick="closeModal('productionModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="productionForm">
+                    <div class="form-group">
+                        <label>Produto *</label>
+                        <input type="text" id="productionProduct" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantidade *</label>
+                        <input type="number" id="productionQuantity" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Receita</label>
+                        <select id="productionRecipe">
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Responsável</label>
+                        <select id="productionEmployee">
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('productionModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveProduction()">Iniciar Produção</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/padaria.js"></script>
+</body>
+</html>
