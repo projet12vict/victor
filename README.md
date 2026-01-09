@@ -28,31 +28,23 @@ Sistema completo de gestão comercial SaaS para **Padarias**, **Restaurantes** e
 
 ---
 
-## 🔑 Credenciais de Acesso
+## 🔑 Credencial de Acesso
 
-### Super Admin (Acesso Total)
+### 👑 Super Admin (ÚNICO com acesso inicial)
 ```
 Email: victorallissson@gmail.com
 Senha: H1victoria@02
 ```
 
-### Admin - Padaria Pão Quente
-```
-Email: admin@padaria.com
-Senha: padaria123
-```
-
-### Admin - Restaurante Sabor da Terra
-```
-Email: admin@restaurante.com
-Senha: restaurante123
-```
-
-### Admin - Minimercado Central
-```
-Email: admin@mercado.com
-Senha: mercado123
-```
+**⚠️ IMPORTANTE:**
+- O sistema inicia SEM empresas cadastradas
+- Apenas o Super Admin pode criar novas empresas
+- Ao criar uma empresa, o Super Admin define:
+  - Nome da empresa
+  - Tipo (Padaria/Restaurante/Minimercado)
+  - Moeda (€ ou $)
+  - Código de ativação
+  - Credenciais do administrador da empresa
 
 ---
 

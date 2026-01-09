@@ -151,31 +151,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             </button>
           </form>
 
-          {/* Credenciais de Teste */}
+          {/* Informação */}
           <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-xs text-gray-500 text-center mb-3">Credenciais de Teste:</p>
-            <div className="space-y-2 text-xs text-gray-600">
-              <div className="bg-gray-50 p-3 rounded">
-                <p className="font-semibold text-blue-600">Super Admin:</p>
-                <p>Email: victorallissson@gmail.com</p>
-                <p>Senha: H1victoria@02</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded">
-                <p className="font-semibold text-green-600">Admin Padaria:</p>
-                <p>Email: admin@padaria.com</p>
-                <p>Senha: padaria123</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded">
-                <p className="font-semibold text-orange-600">Admin Restaurante:</p>
-                <p>Email: admin@restaurante.com</p>
-                <p>Senha: restaurante123</p>
-              </div>
-              <div className="bg-gray-50 p-3 rounded">
-                <p className="font-semibold text-purple-600">Admin Minimercado:</p>
-                <p>Email: admin@mercado.com</p>
-                <p>Senha: mercado123</p>
-              </div>
-            </div>
+            <p className="text-xs text-gray-500 text-center">
+              Apenas o Super Admin pode criar empresas.<br />
+              Contacte o administrador para obter acesso.
+            </p>
           </div>
         </div>
 
