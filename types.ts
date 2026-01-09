@@ -1,98 +1,187 @@
+// Sistema Multiempresas - Tipos TypeScript
 
-// Enums for Core Logic
-export enum CompanyType {
-    RESTAURANT = 'RESTAURANT',
-    SUPERMARKET = 'SUPERMARKET',
-    MIXED = 'MIXED'
+export type CompanyType = 'padaria' | 'restaurante' | 'minimercado';
+export type Currency = '€' | '$';
+export type UserRole = 'super-admin' | 'admin' | 'employee';
+export type ProductionStatus = 'materia-prima' | 'armazenamento' | 'preparacao' | 'producao' | 'embalagem' | 'aprovacao' | 'estoque' | 'disponivel';
+export type OrderStatus = 'pendente' | 'em-preparo' | 'pronto' | 'entregue' | 'cancelado';
+export type PaymentMethod = 'dinheiro' | 'cartao' | 'mbway' | 'transferencia';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: UserRole;
+  companyId?: string;
+  createdAt: string;
+  active: boolean;
 }
 
-export enum UserRole {
-    SUPER_ADMIN = 'SUPER_ADMIN',
-    COMPANY_ADMIN = 'COMPANY_ADMIN',
-    CASHIER = 'CASHIER',
-    WAITER = 'WAITER',
-    KITCHEN = 'KITCHEN'
-}
-
-export enum TableStatus {
-    FREE = 'FREE',
-    OCCUPIED = 'OCCUPIED',
-    RESERVED = 'RESERVED',
-    PAYMENT = 'PAYMENT'
-}
-
-export enum OrderStatus {
-    PENDING = 'PENDING',
-    PREPARING = 'PREPARING', // Na cozinha
-    READY = 'READY',         // Pronto na cozinha, aguardando garçom
-    DELIVERED = 'DELIVERED', // Entregue na mesa
-    COMPLETED = 'COMPLETED'  // Pago
-}
-
-// Domain Models
 export interface Company {
-    id: number;
-    name: string;
-    type: CompanyType;
-    logoUrl?: string;
-    isActive: boolean;
-    plan: 'BASIC' | 'PREMIUM';
-    createdAt: string;
+  id: string;
+  name: string;
+  logo?: string;
+  type: CompanyType;
+  currency: Currency;
+  active: boolean;
+  planActive: boolean;
+  createdAt: string;
+  lastPayment?: string;
+  nextPayment?: string;
+  monthlyFee: number;
 }
 
 export interface Product {
-    id: number;
-    companyId: number;
-    name: string;
-    price: number;
-    category: string;
-    description?: string;
-    stock?: number; // Nullable for restaurants effectively, or tracked for ingredients
-    barcode?: string;
-    image?: string;
+  id: string;
+  companyId: string;
+  name: string;
+  description?: string;
+  image?: string;
+  code: string;
+  category: string;
+  price: number;
+  cost?: number;
+  stock: number;
+  minStock: number;
+  unit: string;
+  active: boolean;
+  isRawMaterial?: boolean;
+  createdAt: string;
+}
+
+export interface Recipe {
+  id: string;
+  companyId: string;
+  productId: string;
+  name: string;
+  ingredients: RecipeIngredient[];
+  steps: string[];
+  prepTime: number;
+  yield: number;
+  createdAt: string;
+}
+
+export interface RecipeIngredient {
+  productId: string;
+  quantity: number;
+  unit: string;
+}
+
+export interface ProductionBatch {
+  id: string;
+  companyId: string;
+  recipeId: string;
+  productId: string;
+  quantity: number;
+  status: ProductionStatus;
+  startedAt: string;
+  completedAt?: string;
+  employeeId: string;
+  notes?: string;
 }
 
 export interface Table {
-    id: number;
-    companyId: number;
-    number: number;
-    status: TableStatus;
-    capacity: number;
-    currentOrderId?: number; // Link to active order
-}
-
-export interface OrderItem {
-    productId: number;
-    productName: string;
-    quantity: number;
-    price: number;
-    observation?: string;
+  id: string;
+  companyId: string;
+  number: number;
+  capacity: number;
+  status: 'livre' | 'ocupada' | 'reservada';
+  orders: Order[];
 }
 
 export interface Order {
-    id: number;
-    companyId: number;
-    tableId?: number; // Null for supermarket
-    items: OrderItem[];
-    total: number;
-    status: OrderStatus;
-    createdAt: Date;
-    type: 'DINE_IN' | 'TAKE_AWAY' | 'RETAIL';
+  id: string;
+  companyId: string;
+  tableId?: string;
+  customerId?: string;
+  items: OrderItem[];
+  total: number;
+  status: OrderStatus;
+  paymentMethod?: PaymentMethod;
+  isPaid: boolean;
+  isDelivery: boolean;
+  deliveryAddress?: string;
+  createdAt: string;
+  completedAt?: string;
+  notes?: string;
 }
 
-export interface User {
-    id: number;
-    companyId?: number; // Null for Super Admin
-    name: string;
-    role: UserRole;
-    email: string;
-    password?: string; // Added for authentication simulation
+export interface OrderItem {
+  id: string;
+  productId: string;
+  productName: string;
+  quantity: number;
+  price: number;
+  type: 'comida' | 'bebida';
+  status: OrderStatus;
+  notes?: string;
 }
 
-export interface ActivationCode {
-    id: number;
-    code: string;
-    plan: 'BASIC' | 'PREMIUM';
-    status: 'UNUSED' | 'USED';
-    generatedAt: Date;
+export interface Employee {
+  id: string;
+  companyId: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  permissions: string[];
+  salary: number;
+  active: boolean;
+  createdAt: string;
+  timeRecords: TimeRecord[];
+}
+
+export interface TimeRecord {
+  id: string;
+  employeeId: string;
+  date: string;
+  checkIn: string;
+  checkOut?: string;
+  hoursWorked?: number;
+}
+
+export interface Sale {
+  id: string;
+  companyId: string;
+  orderId: string;
+  total: number;
+  currency: Currency;
+  paymentMethod: PaymentMethod;
+  employeeId: string;
+  createdAt: string;
+  items: OrderItem[];
+}
+
+export interface StockMovement {
+  id: string;
+  companyId: string;
+  productId: string;
+  type: 'entrada' | 'saida' | 'ajuste';
+  quantity: number;
+  reason: string;
+  employeeId: string;
+  createdAt: string;
+}
+
+export interface Customer {
+  id: string;
+  companyId: string;
+  name: string;
+  email?: string;
+  phone: string;
+  address?: string;
+  createdAt: string;
+  totalOrders: number;
+  totalSpent: number;
+}
+
+export interface DashboardStats {
+  totalRevenue: number;
+  todayRevenue: number;
+  totalOrders: number;
+  todayOrders: number;
+  activeCustomers: number;
+  lowStockItems: number;
+  pendingOrders: number;
 }
