@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
         strictPort: false,
+        allowedHosts: 'all',
         hmr: {
           clientPort: 443,
           protocol: 'wss'
